@@ -1,32 +1,30 @@
 #include "monty.h"
 /**
-*f_swap- sustration
+*f_sub- sustration
 *@head: stack head
 *@counter: line_number
 *Return: no return
 */
-void f_swap(stack_t **head, unsigned int counter)
+void f_sub(stack_t **head, unsigned int counter)
 {
-stack_t *h;
-int len = 0, aux;
+stack_t *aux;
+int sus, nodes;
 
-h = *head; /*'h' is a temporary variable pointing to the top of the stack */
-while (h)
+aux = *head; /*'aux' is a temp variable pointing to d top of d stack*/
+for (nodes = 0; aux != NULL; nodes++)
+aux = aux->next;
+
+if (nodes < 2)
 {
-h = h->next;
-len++;
-}
-if (len < 2)
-{
-fprintf(stderr, "L%d: can't swap, stack too short\n", counter);
-fclose(bus.file);  /*'bus.file' is used to close a file in this code */
-free(bus.content); /* bus.content' is used 2 free dynamically allocated mem */
-free_stack(*head); /*free_stack' is a function dat frees d memory of d stack */
+fprintf(stderr, "L%d: can't sub, stack too short\n", counter);
+fclose(bus.file);
+free(bus.content); /* 'bus.content' is used 2 free dynamically allocmem */
+free_stack(*head); /* free_stack' is a function that frees d mem of d stack */
 exit(EXIT_FAILURE);
 }
-h = *head; /* resetting 'h' to d top of d stack */
-aux = h->n; /* aux is a temporary variable storing d value of d top element */
-h->n = h->next->n;
-h->next->n = aux;/* update the 2nd element with the value stored in aux */
+aux = *head; /* resetting 'aux' to the top of the stack */
+sus = aux->next->n - aux->n; /*'sus' stores d result of d subtraction */
+aux->next->n = sus; /* updating d 2nd element wit d result of d subtraction */
+*head = aux->next; /* updating the head of the stack to the next element*/
+free(aux)
 }
-
