@@ -1,28 +1,22 @@
 #include "monty.h"
 
 /**
- * f_display_stack - prints the stack
- * @head: stack head
- * @counter: not used
+ * f_pall - prints the stack
+ * @stack_head: stack head
+ * @line_number: not used
  * Return: no return
  */
-void f_display_stack(stack_t **head, unsigned int counter)
+void f_pall(stack_t **stack_head, unsigned int line_number)
 {
-	/* Declare a pointer to stack node */
-	stack_t *current_node;
-	(void)counter;
+	stack_t *current;
+	(void)line_number;
 
-	/* Assign head to the current_node */
-	current_node = *head;
-
-	/* If the stack is empty, return */
-	if (current_node == NULL)
+	current = *stack_head;
+	if (current == NULL)
 		return;
-
-	/* Loop through the stack and print values */
-	while (current_node)
+	while (current)
 	{
-		printf("%d\n", current_node->n);
-		current_node = current_node->next;
+		printf("%d\n", current->n);
+		current = current->next;
 	}
 }
