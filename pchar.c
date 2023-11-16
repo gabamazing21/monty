@@ -1,31 +1,32 @@
 #include "monty.h"
-/**
-* f_pchar - prints the char at the top of the stack,
-* followed by a new line
-* @head: stack head
-* @counter: line_number
-* Return: no return
-*/
-void f_pchar(stack_t **head, unsigned int counter)
-{
-stack_t *h;
 
-h = *head; /*'h' is a temporary variable pointing to d top of d stack*/
-if (!h)
+/**
+ * f_pchar - prints the char at the top of the stack,
+ * followed by a new line
+ * @stack_head: stack head
+ * @line_number: line_number
+ * Return: no return
+ */
+void f_pchar(stack_t **stack_head, unsigned int line_number)
 {
-fprintf(stderr, "L%d: can't pchar, stack empty\n", counter);
-fclose(bus.file);  /*'bus.file' is used to close a file*/
-free(bus.content); /*'bus.content'is used 2 free dynamically alloc mem*/
-free_stack(*head); /*'free_stack' is a func that frees d memory of d stack*/
-exit(EXIT_FAILURE);
-}
-if (h->n > 127 || h->n < 0)
-{
-fprintf(stderr, "L%d: can't pchar, value out of range\n", counter);
-fclose(bus.file);
-free(bus.content);
-free_stack(*head);
-exit(EXIT_FAILURE);
-}
-printf("%c\n", h->n); /*printing d character value at d top of d stack*/
+	stack_t *current;
+
+	current = *stack_head;
+	if (!current)
+	{
+		fprintf(stderr, "L%d: can't pchar, stack empty\n", line_number);
+		fclose(bus.file);
+		free(bus.content);
+		free_stack(*stack_head);
+		exit(EXIT_FAILURE);
+	}
+	if (current->n > 127 || current->n < 0)
+	{
+		fprintf(stderr, "L%d: can't pchar, value out of range\n", line_number);
+		fclose(bus.file);
+		free(bus.content);
+		free_stack(*stack_head);
+		exit(EXIT_FAILURE);
+	}
+	printf("%c\n", current->n);
 }
