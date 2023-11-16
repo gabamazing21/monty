@@ -6,7 +6,7 @@
  * @line_number: line_number
  * Return: no return
  */
-void print_top_value(stack_t **head, unsigned int line_number)
+void f_pint(stack_t **head, unsigned int line_number)
 {
 	if (*head == NULL)
 	{
