@@ -1,12 +1,33 @@
 #ifndef MONTY_H
 #define MONTY_H
+
 #include <stdio.h>
 #include <stdlib.h>
-#include <sys/types.h>
 #include <unistd.h>
-#include <fcntl.h>
-#include <string.h>
 #include <ctype.h>
+#include <string.h>
+#include <sys/types.h>
+#include <fcntl.h>
+#include <sys/wait.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <sys/stat.h>
+#include <stdarg.h>
+#include <limits.h>
+#include <fcntl.h>
+#include <errno.h>
+#include <stddef.h>
+#include <signal.h>
+
+/**
+ * struct token_t - token struct
+ * @_token: pointer
+ */
+typedef struct token_t
+{
+	char *_token[50000];
+} token_t;
+
 /**
  * struct stack_s - doubly linked list representation of a stack (or queue)
  * @n: integer
@@ -14,65 +35,77 @@
  * @next: points to the next element of the stack (or queue)
  *
  * Description: doubly linked list node structure
- * for stack, queues, LIFO, FIFO Holberton project
+ * for stack, queues, LIFO, FIFO
  */
 typedef struct stack_s
 {
 	int n;
 	struct stack_s *prev;
 	struct stack_s *next;
-} stack_t;
-/**
- * struct bus_s - variables -args, file, line content
- * @arg: value
- * @file: pointer to monty file
- * @content: line content
- * @lifi: flag change stack <-> queue
- * Description: carries values through the program
- */
-typedef struct bus_s
-{
-	char *arg;
-	FILE *file;
-	char *content;
-	int lifi;
-}  bus_t;
-extern bus_t bus;
+} stack1_t;
+
+
 /**
  * struct instruction_s - opcode and its function
  * @opcode: the opcode
  * @f: function to handle the opcode
  *
  * Description: opcode and its function
- * for stack, queues, LIFO, FIFO Holberton project
+ * for stack, queues, LIFO, FIFO
  */
 typedef struct instruction_s
 {
 	char *opcode;
-	void (*f)(stack_t **stack, unsigned int line_number);
+	void (*f)(stack1_t **stack, unsigned int line_number);
 } instruction_t;
-char *_realloc(char *ptr, unsigned int old_size, unsigned int new_size);
-ssize_t getstdin(char **lineptr, int file);
-char  *clean_line(char *content);
-void f_push(stack_t **head, unsigned int number);
-void f_pall(stack_t **head, unsigned int number);
-void f_pint(stack_t **head, unsigned int number);
-int execute(char *content, stack_t **head, unsigned int counter, FILE *file);
-void free_stack(stack_t *head);
-void f_pop(stack_t **head, unsigned int counter);
-void f_swap(stack_t **head, unsigned int counter);
-void f_add(stack_t **head, unsigned int counter);
-void f_nop(stack_t **head, unsigned int counter);
-void f_sub(stack_t **head, unsigned int counter);
-void f_div(stack_t **head, unsigned int counter);
-void f_mul(stack_t **head, unsigned int counter);
-void f_mod(stack_t **head, unsigned int counter);
-void f_pchar(stack_t **head, unsigned int counter);
-void f_pstr(stack_t **head, unsigned int counter);
-void f_rotl(stack_t **head, unsigned int counter);
-void f_rotr(stack_t **head, __attribute__((unused)) unsigned int counter);
-void addnode(stack_t **head, int n);
-void addqueue(stack_t **head, int n);
-void f_queue(stack_t **head, unsigned int counter);
-void f_stack(stack_t **head, unsigned int counter);
+
+/**
+ * struct info_t -  variables
+ * @err_no: pointer
+ * @filename: pointer
+ * @mode: pointer
+ * @fileDescriptor: ======
+ * @var: struct
+ * @head2: head
+ */
+typedef struct info_t
+{
+	int err_no;
+	char *filename;
+	char *mode;
+	int fileDescriptor;
+	token_t var;
+	stack1_t *head2;
+
+} info_t;
+info_t info;
+
+void pint_handler(stack1_t **stack, unsigned int line_number);
+void push_handler(stack1_t **stack, unsigned int line_number);
+void div_handler(stack1_t **stack, unsigned int line_number);
+void mod_handler(stack1_t **stack, unsigned int line_number);
+void mul_handler(stack1_t **stack, unsigned int line_number);
+void queue_handler(stack1_t **stack, unsigned int line_number);
+void stack_handler(stack1_t **stack, unsigned int line_number);
+void pall_handler(stack1_t **stack, unsigned int line_number);
+void addnodefront(stack1_t **head, const int n);
+void *load_linked_list(int line_number, char *_FILE);
+void *readlinedata(int ln, char *_FILE);
+void exitHandler(void);
+int check_opcode(char **tokens);
+int check_opcode_arg(char **token);
+void free_list(stack1_t *head);
+char **tokenizer(char *line);
+stack1_t *addnodetoend(stack1_t **head, const int n);
+void nop_handler(stack1_t **stack, unsigned int line_number);
+void pchar_handler(stack1_t **stack, unsigned int line_number);
+void pop_handler(stack1_t **stack, unsigned int line_number);
+void pstr_handler(stack1_t **stack, unsigned int line_number);
+void rotl_handler(stack1_t **stack, unsigned int line_number);
+void rotr_handler(stack1_t **stack, unsigned int line_number);
+void sub_handler(stack1_t **stack, unsigned int line_number);
+void swap_handler(stack1_t **stack, unsigned int line_number);
+void print_stack(const stack1_t **h, unsigned int ln);
+void (*select_opcode(char *op_code[]))(stack1_t **s, unsigned int ln);
+void add_handler(stack1_t **stack, unsigned int line_number);
 #endif
